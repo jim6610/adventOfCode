@@ -5,7 +5,7 @@ function getData(filePath) {
     let fs = require('fs');
     let data = null;
 
-    data = fs.readFileSync(filePath, "utf-8").split('\n');
+    data = fs.readFileSync(filePath, "utf-8").split('\r\n');
 
     return data;
 };

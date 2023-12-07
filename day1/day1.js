@@ -5,7 +5,7 @@ function main() {
     let hasNumber = /\d/; 
     let sum = 0; 
 
-    //data = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"]; // Test data
+    //data = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet", "five8b"]; // Test data
 
     // Iterating through each string to parse out the left-most and right-most integers to build a number and adding it to the sum
     data.forEach(str => {
@@ -40,6 +40,7 @@ function getRightMostInteger(str) {
 
     return null;
 }
+
 
 // Execute code
 main();
