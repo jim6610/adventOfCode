@@ -7,10 +7,10 @@ function main() {
 
     //data = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"]; // Test data
 
-    // iterating through each string to get left-most and right-most integers
+    // Iterating through each string to parse out the left-most and right-most integers to build a number and adding it to the sum
     data.forEach(str => {
         if (hasNumber.test(str)) {
-            sum += buildNumber(str);
+            sum += Number(getLeftMostInteger(str) + getRightMostInteger(str));
         }
     });
 
@@ -39,10 +39,6 @@ function getRightMostInteger(str) {
     }
 
     return null;
-}
-
-function buildNumber(str) {
-    return Number(getLeftMostInteger(str) + getRightMostInteger(str));
 }
 
 // Execute code
