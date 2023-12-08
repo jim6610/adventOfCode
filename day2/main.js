@@ -1,16 +1,11 @@
 const helper = require("../helper.js");
 
-const Colors = {
-	Red: 0,
-	Green: 1,
-	Blue: 2
-}
-
 
 function main() {
     let data = helper.getData("./day2/info/input.txt");
+    let sum = 0;
 
-    // Test data part 1 and 2
+    /* Test data part 1 and 2 */
     // data = [
     //     "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
     //     "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
@@ -18,58 +13,35 @@ function main() {
     //     "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
     //     "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
     // ];
-    
-    let gameObjArray = []
-    let sum = 0;
 
-    data.forEach(game => {
-        let gameObj = new Object; 
-        let rawGameData = game.split(':'); // splitting rawGameData into its index and roundData
-        gameObj.Index = getGameIndex(rawGameData[0]);
-        let rawRoundDataArr = rawGameData[1].split(';');
-
-        console.log("gameObj.Index: " + gameObj.Index);
-        console.log("rawRoundDataArr: " + rawRoundDataArr);
-
-        let processedRoundData = processRawRoundData(rawRoundDataArr);
-        gameObj.Rounds = processedRoundData;
-        
-        gameObjArray.push(gameObj);
-    });
+    let gameObjArray = buildGameObjArray(data);
 
     sum = processGameResults(gameObjArray);
 
     console.log(sum);
 }
 
-function getGameIndex(index) {
-    return Number(index.match(/\d+/)[0]);
-}
+function buildGameObjArray(data) {
+    let gameObjArray = [];
 
-function processRawRoundData(rawRoundDataArr) {
-    let cubeDataArr = [];
+    data.forEach(game => {
+        let rawGameData = game.split(':'); // splitting rawGameData into its index and roundData
+        let rawRoundDataArr = rawGameData[1].split(';');
 
-    rawRoundDataArr.forEach(r => {
-        let rawCubeSetArr = r.split(','); 
-        console.log("rawCubeSetArr: " + rawCubeSetArr);
-
-        let cube = processRawCubeSet(rawCubeSetArr);
-
-        cubeDataArr.push(cube);
+        let gameObj = new Object; 
+        gameObj.Index = Number(rawGameData[0].match(/\d+/));
+        gameObj.Rounds = [...rawRoundDataArr].map((round) => processRoundData(round));
+        gameObjArray.push(gameObj);
     });
 
-    return cubeDataArr;
+    return gameObjArray;
 }
 
-function processRawCubeSet(rawCubeSetArr) {
+
+function processRoundData(round) {
     let cube = { Red: 0, Green: 0, Blue: 0};
 
-    //cubeDataArr = [...rawCubeDataArr].map((cubeData) => buildCubeDataObj(cubeData));
-
-    rawCubeSetArr.forEach(c => {
-
-        console.log("cube: " + c);
-
+    round.split(',').forEach(c => {
         if (c.includes("red")) {
             cube.Red = getNumber(c);
         }
@@ -79,10 +51,9 @@ function processRawCubeSet(rawCubeSetArr) {
         else if (c.includes("blue")) {
             cube.Blue = getNumber(c);
         }
-
     });
 
-    console.log("cubeSet: " + cube.Red + " " + cube.Green + " " + cube.Blue);
+    //console.log("cubeSet: " + cube.Red + " " + cube.Green + " " + cube.Blue);
 
     return cube;
 }
@@ -115,5 +86,5 @@ function possible(game) {
 }
 
 
-// Execute code
+/* Execute code */
 main();

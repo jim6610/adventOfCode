@@ -17,10 +17,10 @@ function main() {
     let data = helper.getData("./day1/info/input.txt");
     let sum = 0; 
 
-    // Test data part 1
+    /* Test data part 1 */
     //data = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet", "five8b"]; 
 
-    // Test data part 2
+    /* Test data part 2 */
     // data = ["two1nine",
     //         "eightwothree",
     //         "abcone2threexyz",
@@ -30,12 +30,12 @@ function main() {
     //         "7pqrstsixteen"
     //         ]
 
-    // Iterating through each string to parse out the left-most and right-most integers to build a number and add it to the sum
+    /* Iterating through each string to parse out the left-most and right-most integers to build a number and add it to the sum */
     data.forEach(str => {
-        // part 1 solution
+        /* part 1 solution */
         // sum += Number(getFirstInteger(str) + getLastInteger(str));
 
-        // part 2 solution
+        /* part 2 solution */
         let numberArr = [...str.matchAll(/(?=(\d|one|two|three|four|five|six|seven|eight|nine))/gi)]
             .map((x) => textToNumber(x[1]));
 
@@ -54,5 +54,5 @@ function textToNumber(str) {
 }
 
 
-// Execute code
+/* Execute code */
 main();
