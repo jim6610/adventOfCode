@@ -12,6 +12,7 @@ const textToNumberMap = {
     nine:"9"
 };
 
+
 function main() {
     let data = helper.getData("./day1/info/input.txt");
     let sum = 0; 
@@ -29,16 +30,16 @@ function main() {
     //         "7pqrstsixteen"
     //         ]
 
-    // Iterating through each string to parse out the left-most and right-most integers to build a number and adding it to the sum
+    // Iterating through each string to parse out the left-most and right-most integers to build a number and add it to the sum
     data.forEach(str => {
         // part 1 solution
         // sum += Number(getFirstInteger(str) + getLastInteger(str));
 
         // part 2 solution
-        let numberArr = [...str.matchAll(/(?=(\d|one|two|three|four|five|six|seven|eight|nine))/gi)].map((x) => x[1]);
-        numberArr = numberArr.map((num) => textToNumber(num));
+        let numberArr = [...str.matchAll(/(?=(\d|one|two|three|four|five|six|seven|eight|nine))/gi)]
+            .map((x) => textToNumber(x[1]));
 
-        sum += Number(numberArr[0] + numberArr[numberArr.length - 1])
+        sum += Number(numberArr[0] + numberArr[numberArr.length - 1]);
     });
 
     console.log(sum);
