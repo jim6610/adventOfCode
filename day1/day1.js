@@ -1,18 +1,18 @@
 const helper = require("../helper.js");
 
-function main() {
-    const textToNumberMap = {
-        one:"1",
-        two:"2",
-        three:"3",
-        four:"4",
-        five:"5",
-        six:"6",
-        seven:"7",
-        eight:"8",
-        nine:"9"
-    };
+const textToNumberMap = {
+    one:"1",
+    two:"2",
+    three:"3",
+    four:"4",
+    five:"5",
+    six:"6",
+    seven:"7",
+    eight:"8",
+    nine:"9"
+};
 
+function main() {
     let data = helper.getData("./day1/info/input.txt");
     let sum = 0; 
 
@@ -31,35 +31,21 @@ function main() {
 
     // Iterating through each string to parse out the left-most and right-most integers to build a number and adding it to the sum
     data.forEach(str => {
-        str = textToNumber(textToNumberMap, str);
-        sum += Number(getLeftMostInteger(str) + getRightMostInteger(str));
+        // part 1 solution
+        // sum += Number(getFirstInteger(str) + getLastInteger(str));
+
+        // part 2 solution
+        let numberArr = [...str.matchAll(/(?=(\d|one|two|three|four|five|six|seven|eight|nine))/gi)].map((x) => x[1]);
+        numberArr = numberArr.map((num) => textToNumber(num));
+
+        sum += Number(numberArr[0] + numberArr[numberArr.length - 1])
     });
 
     console.log(sum);
 }
 
-function getLeftMostInteger(str) {
-    for (let i = 0; i < str.length; i++) {
-        if (!isNaN(str[i]) ) {
-            return str[i];
-        }
-    }
-
-    return null;
-};
-
-function getRightMostInteger(str) {
-    for (let i = str.length - 1; i >= 0; i--) {
-        if (!isNaN(str[i]) ) {
-            return str[i];
-        }
-    }
-
-    return null;
-}
-
-function textToNumber(textToNumberMap, str) {
-    str = str.replace(/one|two|three|four|five|six|seven|eight|nine/gi, (matched) => {
+function textToNumber(str) {
+    str = str.replace(/one|two|three|four|five|six|seven|eight|nine/g, (matched) => {
         return textToNumberMap[matched];
     });
 
