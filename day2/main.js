@@ -16,7 +16,11 @@ function main() {
 
     let gameObjArray = buildGameObjArray(data);
 
-    sum = processGameResults(gameObjArray);
+    /* Part 1 solution */
+    //sum = processGameResults(gameObjArray);
+
+    /* Part 2 solution */
+    sum = processGameResultsP2(gameObjArray);
 
     console.log(sum);
 }
@@ -83,6 +87,30 @@ function possible(game) {
     }
 
     return true;
+}
+
+function processGameResultsP2(gameObjArray) {
+    let sum = 0;
+
+    gameObjArray.forEach(game => {
+        let highestValues = { Red: 0, Green: 0, Blue: 0};
+
+        game.Rounds.forEach(round => {
+            if (round.Red > highestValues.Red) {
+                highestValues.Red = round.Red;
+            }
+            if (round.Green > highestValues.Green) {
+                highestValues.Green = round.Green;
+            }
+            if (round.Blue > highestValues.Blue) {
+                highestValues.Blue = round.Blue;
+            }
+        });
+
+        sum += highestValues.Red * highestValues.Green * highestValues.Blue;
+    });
+
+    return sum;
 }
 
 
