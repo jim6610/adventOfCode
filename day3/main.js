@@ -1,11 +1,12 @@
 const helper = require("../helper.js");
-const specialChars =/[`!@#$%^&*()_\-+=\[\]{};':"\\|,<>\/?~]/;
+const specialChars =/[^\.\w]/;
+
 
 function main() {
     let data = helper.getData("./day3/info/input.txt");
     let sum = 0;
 
-    /* Test data part 1 */
+    /* Test data part 1 and part 2 */
     // data = [
     //     "467..114..",
     //     "...*......",
@@ -27,16 +28,20 @@ function main() {
         for (let j = 0; j < data[i].length; j++) {
             let currentChar = data[i][j];
 
-            if (currentChar === "." || specialChars.test(currentChar)) {
+            if (!isNaN(currentChar)) {
+                num.Value += currentChar;
+
+                if (num.Value.length === 1) {
+                    num.FirstIndex = j;
+                }
+                num.LastIndex = j;
+            }
+
+            if (currentChar === "." || specialChars.test(currentChar) || j === data[i].length - 1) {
                 if (num.Value !== "") {
-                    num.FirstIndex = j - num.Value.length;
-                    num.LastIndex = j - 1;
                     sum += isAdjacent(num, data, i);
                     num.Value = "";
                 }
-            }
-            else if (!isNaN(currentChar)) {
-                num.Value += currentChar;
             }
         }
     }
