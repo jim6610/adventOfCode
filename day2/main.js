@@ -43,21 +43,21 @@ function buildGameObjArray(data) {
 
 
 function processRoundData(round) {
-    let cube = { Red: 0, Green: 0, Blue: 0};
+    let cube = { red: 0, green: 0, blue: 0};
 
     round.split(',').forEach(c => {
         if (c.includes("red")) {
-            cube.Red = getNumber(c);
+            cube.red = getNumber(c);
         }
         else if (c.includes("green")) {
-            cube.Green = getNumber(c);
+            cube.green = getNumber(c);
         }
         else if (c.includes("blue")) {
-            cube.Blue = getNumber(c);
+            cube.blue = getNumber(c);
         }
     });
 
-    //console.log("cubeSet: " + cube.Red + " " + cube.Green + " " + cube.Blue);
+    //console.log("cubeSet: " + cube.red + " " + cube.green + " " + cube.blue);
 
     return cube;
 }
@@ -81,7 +81,7 @@ function processGameResults(gameObjArray) {
 
 function possible(game) {
     for (let i = 0; i < game.Rounds.length; i++) {
-        if (game.Rounds[i].Red > 12 || game.Rounds[i].Green > 13 || game.Rounds[i].Blue > 14) {
+        if (game.Rounds[i].red > 12 || game.Rounds[i].green > 13 || game.Rounds[i].blue > 14) {
             return false;
         }
     }
@@ -93,21 +93,21 @@ function processGameResultsP2(gameObjArray) {
     let sum = 0;
 
     gameObjArray.forEach(game => {
-        let highestValues = { Red: 0, Green: 0, Blue: 0};
+        let highestValues = { red: 0, green: 0, blue: 0};
 
         game.Rounds.forEach(round => {
-            if (round.Red > highestValues.Red) {
-                highestValues.Red = round.Red;
+            if (round.red > highestValues.red) {
+                highestValues.red = round.red;
             }
-            if (round.Green > highestValues.Green) {
-                highestValues.Green = round.Green;
+            if (round.green > highestValues.green) {
+                highestValues.green = round.green;
             }
-            if (round.Blue > highestValues.Blue) {
-                highestValues.Blue = round.Blue;
+            if (round.blue > highestValues.blue) {
+                highestValues.blue = round.blue;
             }
         });
 
-        sum += highestValues.Red * highestValues.Green * highestValues.Blue;
+        sum += highestValues.red * highestValues.green * highestValues.blue;
     });
 
     return sum;
