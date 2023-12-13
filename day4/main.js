@@ -16,45 +16,28 @@ function main() {
     //     "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
     // ];
 
-    cards = processCardData(data);
-    sum = calculatePoints(cards);
-
-    console.log(sum);
-}
-
-function processCardData(data) {
-    let cards = [];
-
     data.forEach(card => {
-        let cardObj = { WinningNumbers: [], SelectedNumbers: [] };
-        let rawData = card.split(': ');
+        let rawData = card.split(/\: \s*/);
         rawData = rawData[1].split(' | ');
 
-        cardObj.WinningNumbers = rawData[0].split(/\s+/);
-        cardObj.SelectedNumbers = rawData[1].split(/\s+/);
-
+        let cardObj = { 
+            winningNumbers: new Set(rawData[0].split(/\s+/)), 
+            selectedNumbers: new Set(rawData[1].split(/\s+/)) 
+        };
+        
         cards.push(cardObj);
     });
 
-    return cards;
-}
+    cards.forEach(({ winningNumbers, selectedNumbers}) => {
+        let combinedNumbers = new Set([...winningNumbers, ...selectedNumbers]); 
+        let numberOfmatches = (selectedNumbers.size - (combinedNumbers.size - winningNumbers.size));
 
-function calculatePoints(cards) {
-    let sum = 0;
-    let i = 1;
-    cards.forEach(card => {
-        let commonNumbers = card.WinningNumbers.filter(value => card.SelectedNumbers.includes(value));
-        if (commonNumbers.length !== 0) {
-            console.log("Card " + i + ": 2 ^ " + (commonNumbers.length - 1) + ": " + Math.pow(2, commonNumbers.length - 1));
-            sum += Math.pow(2, commonNumbers.length - 1);
+        if (numberOfmatches > 0) {
+            sum += Math.pow(2, numberOfmatches - 1);
         }
-        else {
-            console.log("Card " + i);
-        }
-        i++;
     });
 
-    return sum;
+    console.log(sum);
 }
 
 
