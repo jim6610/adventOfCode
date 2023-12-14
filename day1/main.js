@@ -32,10 +32,10 @@ function main() {
 
     /* Iterating through each string to parse out the left-most and right-most integers to build a number and add it to the sum */
     data.forEach(str => {
-        /* part 1 solution */
+        /* Solution Part 1 */
         // sum += Number(getFirstInteger(str) + getLastInteger(str));
 
-        /* part 2 solution */
+        /* Solution Part 2 */
         let numberArr = [...str.matchAll(/(?=(\d|one|two|three|four|five|six|seven|eight|nine))/gi)]
             .map((x) => textToNumber(x[1]));
 

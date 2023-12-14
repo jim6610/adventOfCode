@@ -16,10 +16,10 @@ function main() {
 
     let gameObjArray = buildGameObjArray(data);
 
-    /* Part 1 solution */
+    /* Solution Part 1 */
     //sum = processGameResults(gameObjArray);
 
-    /* Part 2 solution */
+    /* Solution Part 2 */
     sum = processGameResultsP2(gameObjArray);
 
     console.log(sum);
