@@ -2,9 +2,8 @@ const helper = require("../helper.js");
 
 
 function main() {
-    let data = helper.getData("./day4/info/input.txt");
+    let data = helper.getData("./day5/info/input.txt");
     let sum = 0;
-    let cards = [];
 
     /* Test data part 1 and part 2 */
     // data = [
@@ -16,42 +15,7 @@ function main() {
     //     "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
     // ];
 
-    data.forEach((card, i) => {
-        let rawData = card.split(/\: \s*/);
-        rawData = rawData[1].split(' | ');
 
-        let cardObj = { 
-            cardIndex: "Card " + (i+1), 
-            winningNumbers: new Set(rawData[0].split(/\s+/)), 
-            selectedNumbers: new Set(rawData[1].split(/\s+/)),
-            counter: 1
-        };
-        
-        cards.push(cardObj);
-    });
-
-    cards.forEach(({ winningNumbers, selectedNumbers, counter}, i) => {
-        let combinedNumbers = new Set([...winningNumbers, ...selectedNumbers]); 
-        let numberOfmatches = (selectedNumbers.size - (combinedNumbers.size - winningNumbers.size));
-
-        /* Solution Part 1 */
-        // if (numberOfmatches > 0) {
-        //     sum += Math.pow(2, numberOfmatches - 1);
-        // }
-
-        /* Solution Part 2 */
-        if (numberOfmatches > 0) {
-            for (let j = 0; j < counter; j++) {
-                for (let k = 1; k <= numberOfmatches; k++) {
-                    if (typeof cards[i+k] !== "undefined") {
-                        cards[i+k].counter++;
-                    }
-                }
-            }
-        }
-        
-        sum += counter;
-    });
 
     console.log(sum);
 }
