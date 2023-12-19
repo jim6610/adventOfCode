@@ -3,7 +3,7 @@ const helper = require("../helper.js");
 
 function main() {
     let data = helper.getData("./day5/info/input.txt");
-    let lowestLocation = 1000000;
+    let lowestLocation = null;
 
     /* Test data part 1 and part 2 */
     // data = [
@@ -45,9 +45,9 @@ function main() {
     const [seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation] = processAlmanacData(data);
 
     seeds.forEach(seed => {
-        let location = getLocation(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
+        let location = determineLocation(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
 
-        if (location < lowestLocation) {
+        if (lowestLocation === null || location < lowestLocation) {
             lowestLocation = location;
         }
     });
@@ -56,7 +56,7 @@ function main() {
 }
 
 function processAlmanacData(data) {
-    let seeds = [], seedToSoil = new Map(), soilToFertilizer = new Map(), fertilizerToWater = new Map(), waterToLight = new Map(), lightToTemperature = new Map(), temperatureToHumidity = new Map(), humidityToLocation = new Map();
+    let seeds = [], seedToSoil = [], soilToFertilizer = [], fertilizerToWater = [], waterToLight = [], lightToTemperature = [], temperatureToHumidity = [], humidityToLocation = [];
 
     data.forEach((line, i) => {
         if (line.includes("seeds:")) {
@@ -64,66 +64,76 @@ function processAlmanacData(data) {
             seeds = line[1].split(" ");
         }
         else if (line.includes("seed-to-soil map:")) {
-            seedToSoil = buildMap(data, i);
+            seedToSoil = buildMappingArr(data, i);
         }
         else if (line.includes("soil-to-fertilizer map:")) {
-            soilToFertilizer = buildMap(data, i);
+            soilToFertilizer = buildMappingArr(data, i);
         }
         else if (line.includes("fertilizer-to-water map:")) {
-            fertilizerToWater = buildMap(data, i);
+            fertilizerToWater = buildMappingArr(data, i);
         }
         else if (line.includes("water-to-light map:")) {
-            waterToLight = buildMap(data, i);
+            waterToLight = buildMappingArr(data, i);
         }
         else if (line.includes("light-to-temperature map:")) {
-            lightToTemperature = buildMap(data, i);
+            lightToTemperature = buildMappingArr(data, i);
         }
         else if (line.includes("temperature-to-humidity map:")) {
-            temperatureToHumidity = buildMap(data, i);
+            temperatureToHumidity = buildMappingArr(data, i);
         }
         else if (line.includes("humidity-to-location map:")) {
-            humidityToLocation = buildMap(data, i);
+            humidityToLocation = buildMappingArr(data, i);
         }
     });
 
     return [seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation];
 }
 
-function buildMap(data, index) {
-    let map = new Map();
+function buildMappingArr(data, index) {
+    let arr = [];
 
     for (let i = index + 1; i < data.length; i++) {
         if (data[i] !== "") {
             const dataSet = data[i].split(" ");
-            let source = Number(dataSet[1]);
-            let destination = Number(dataSet[0]);
-            let range = Number(dataSet[2]);
-
-            for (let j = 0; j < range; j++) {
-                map.set(source + j, destination + j);
-            }
+            arr.push({ source: Number(dataSet[1]), destination: Number(dataSet[0]), range: Number(dataSet[2]) })
         }
         else {
-            return map;
+            return arr;
         }
     }
 
-    return map;
+    return arr;
 }
 
-function getLocation(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation) {
+function determineLocation(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation) {
     let currentNumber = Number(seed);
 
-    currentNumber = seedToSoil.has(currentNumber) ? seedToSoil.get(currentNumber) : currentNumber;
-    currentNumber = soilToFertilizer.has(currentNumber) ? soilToFertilizer.get(currentNumber) : currentNumber;
-    currentNumber = fertilizerToWater.has(currentNumber) ? fertilizerToWater.get(currentNumber) : currentNumber;
-    currentNumber = waterToLight.has(currentNumber) ? waterToLight.get(currentNumber) : currentNumber;
-    currentNumber = lightToTemperature.has(currentNumber) ? lightToTemperature.get(currentNumber) : currentNumber;
-    currentNumber = temperatureToHumidity.has(currentNumber) ? temperatureToHumidity.get(currentNumber) : currentNumber;
-    currentNumber = humidityToLocation.has(currentNumber) ? humidityToLocation.get(currentNumber) : currentNumber;
+    currentNumber = getDestination(currentNumber, seedToSoil);
+    currentNumber = getDestination(currentNumber, soilToFertilizer);
+    currentNumber = getDestination(currentNumber, fertilizerToWater);
+    currentNumber = getDestination(currentNumber, waterToLight);
+    currentNumber = getDestination(currentNumber, lightToTemperature);
+    currentNumber = getDestination(currentNumber, temperatureToHumidity);
+    currentNumber = getDestination(currentNumber, humidityToLocation);
 
     return currentNumber;
 }
+
+function getDestination(currentSource, mappingArr) {
+    for (let i = 0; i < mappingArr.length; i++) {
+        let lowerBound = mappingArr[i].source;
+        let upperBound = (mappingArr[i].source + mappingArr[i].range) - 1;
+
+        if (lowerBound <= currentSource && currentSource <= upperBound) {
+            let destination = mappingArr[i].destination - mappingArr[i].source + currentSource;
+            
+            return destination;
+        }
+    };
+
+    return currentSource;
+}
+
 
 /* Execute code */
 main();
