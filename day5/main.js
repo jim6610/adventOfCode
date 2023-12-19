@@ -42,15 +42,19 @@ function main() {
     //     "56 93 4"
     // ];
 
-    const [seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation] = processAlmanacData(data);
+    let [seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation] = processAlmanacData(data);
 
-    seeds.forEach(seed => {
-        let location = determineLocation(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
+    /* Solution Part 1 */
+    // seeds.forEach(seed => {
+    //     let location = determineLocation(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
 
-        if (lowestLocation === null || location < lowestLocation) {
-            lowestLocation = location;
-        }
-    });
+    //     if (lowestLocation === null || location < lowestLocation) {
+    //         lowestLocation = location;
+    //     }
+    // });
+
+    /* Solution Part 2 */
+    seeds = processSeedData(seeds);
 
     console.log(lowestLocation);
 }
@@ -126,12 +130,22 @@ function getDestination(currentSource, mappingArr) {
 
         if (lowerBound <= currentSource && currentSource <= upperBound) {
             let destination = mappingArr[i].destination - mappingArr[i].source + currentSource;
-            
+
             return destination;
         }
     };
 
     return currentSource;
+}
+
+function processSeedData(seeds) {
+    let processedSeeds = [];
+
+    for (let i = 0; i < seeds.length; i += 2) {
+        processedSeeds.push({ origin: seeds[i], range: seeds[i + 1] });
+    }
+
+    return processedSeeds;
 }
 
 
