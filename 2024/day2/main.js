@@ -12,15 +12,15 @@ function main() {
 
     /* Iterating through each string to create 2 lists of numbers  */
     data.forEach(str => {
-        let [left, right] = str.split('   ');
+        col = str.split('   ');
 
-        list1.push(Number(left));
-        list2.push(Number(right));
+        list1.push(Number(col[0]));
+        list2.push(Number(col[1]));
     });
 
     /* Solution Part 1 */
-    // list1.sort();
-    // list2.sort();
+    // list1.sort(function(a, b) {return a - b});
+    // list2.sort(function(a, b) {return a - b});
 
     // totalDistance = calculateTotalDistance(list1, list2);
 
@@ -37,9 +37,9 @@ function main() {
 function calculateTotalDistance(list1, list2) {
     let total = 0;
 
-    list1.forEach((element, index) => {
-        total += Math.abs(element - list2[index]);
-    });
+    for (let i = 0; i < list1.length; i++) {
+        total += Math.abs(list1[i] - list2[i]);
+    }
 
     return total;
 }
