@@ -1,61 +1,58 @@
 const helper = require("../../helper.js");
 
 function main() {
-    let data = helper.getData("./2024/day1/info/input.txt");
-    let totalDistance = 0; 
-    let similarityScore = 0;
+    let data = helper.getData("./2024/day2/info/input.txt");
+    let total = 0; 
 
     /* Test data */
-    //data = ["3   4", "4   3", "2   5", "1   3", "3   9", "3   3"]; 
+    // data = ["7 6 4 2 1", 
+    //         "1 2 7 8 9",
+    //         "9 7 6 2 1",
+    //         "1 3 2 4 5",
+    //         "8 6 4 4 1",
+    //         "1 3 6 7 9"]; 
 
-    let list1 = [], list2 = [];
+    /* Solution Part 1 */        
+    /* Iterating through each input string to determine if sequence is ascending or descending */
+    data.forEach((str) => {
+        let sequence = str.split(" ").map(Number);
+        let firstIndex = sequence[0];
+        let lastIndex = sequence[sequence.length - 1];
 
-    /* Iterating through each string to create 2 lists of numbers  */
-    data.forEach(str => {
-        col = str.split('   ');
-
-        list1.push(Number(col[0]));
-        list2.push(Number(col[1]));
+        if (firstIndex < lastIndex && checkAscending(sequence))
+            total++;
+        else if (firstIndex > lastIndex && checkDescending(sequence))
+            total++;
     });
 
-    /* Solution Part 1 */
-    // list1.sort(function(a, b) {return a - b});
-    // list2.sort(function(a, b) {return a - b});
-
-    // totalDistance = calculateTotalDistance(list1, list2);
-
-    // console.log(totalDistance);
+    console.log(total);
 
 
-    
+
     /* Solution Part 2 */
-    similarityScore = calculateSimilarityScore(list1, list2);
 
-    console.log(similarityScore);
 }
 
-function calculateTotalDistance(list1, list2) {
-    let total = 0;
+function checkAscending(sequence) {
+    for (let i = 0; i < sequence.length - 1; i++) {
+        let difference = Math.abs(sequence[i] - sequence[i + 1]);
 
-    for (let i = 0; i < list1.length; i++) {
-        total += Math.abs(list1[i] - list2[i]);
+        if (sequence[i] >= sequence[i + 1] || difference > 3 || difference < 1) 
+            return false;
     }
 
-    return total;
+    return true;
 }
 
-function calculateSimilarityScore(list1, list2) {
-    let total = 0;
+function checkDescending(sequence) {
+    for (let i = 0; i < sequence.length - 1; i++) {
+        let difference = Math.abs(sequence[i] - sequence[i + 1]);
 
-    list1.forEach((val) => {
-        total += val * countOccurrences(list2, val);
-    })
+        if (sequence[i] < sequence[i + 1] || difference > 3 || difference < 1)
+            return false;
+    }
 
-    return total;
-}
-
-function countOccurrences(arr, element) {
-    return arr.reduce((count, current) => (current === element ? count + 1 : count), 0);
+    return true;
 }
 
 /* Execute code */
