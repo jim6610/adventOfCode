@@ -1,4 +1,4 @@
-const helper = require("../helper.js");
+const helper = require("../../helper.js");
 
 const textToNumberMap = {
     one:"1",
@@ -14,7 +14,7 @@ const textToNumberMap = {
 
 
 function main() {
-    let data = helper.getData("./day1/info/input.txt");
+    let data = helper.getData("./2023/day1/info/input.txt");
     let sum = 0; 
 
     /* Test data part 1 */

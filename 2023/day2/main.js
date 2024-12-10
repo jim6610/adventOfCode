@@ -1,8 +1,8 @@
-const helper = require("../helper.js");
+const helper = require("../../helper.js");
 
 
 function main() {
-    let data = helper.getData("./day2/info/input.txt");
+    let data = helper.getData("./2023/day2/info/input.txt");
     let sum = 0;
 
     /* Test data part 1 and 2 */

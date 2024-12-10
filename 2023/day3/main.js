@@ -1,9 +1,9 @@
-const helper = require("../helper.js");
+const helper = require("../../helper.js");
 const specialChars =/[^\.\w]/;
 
 
 function main() {
-    let data = helper.getData("./day3/info/input.txt");
+    let data = helper.getData("./2023/day3/info/input.txt");
     let sum = 0;
 
     /* Test data part 1 and part 2 */
